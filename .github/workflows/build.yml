@@ -11,53 +11,56 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4  # 检出代码
     
-    - name: Cache Node modules
+    - name: Cache Node modules    # 新增依赖缓存
       uses: actions/cache@v3
       with:
-        path: ~/.npm
+        path: |
+          ~/.npm
+          node_modules
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: ${{ runner.os }}-node-
-
-    - name: Setup Node.js
+        restore-keys: |
+          ${{ runner.os }}-node-
+    
+    - name: Setup Node.js        # Node.js 环境
       uses: actions/setup-node@v4
       with:
         node-version: '20'
         cache: 'npm'
-
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Build web assets
+    
+    - name: Install dependencies # 关键修改点
+      run: npm ci  # 替代原来的 npm install
+    
+    - name: Build web assets     # 构建前端资源
       run: npm run build
-
-    - name: Sync Capacitor project
-      run: |
+        
+    - name: Sync Capacitor project 
+      run: |                    # 同步 Android 项目
         npx cap copy android
         npx cap sync android
-
-    - name: Cache Gradle
+    
+    - name: Cache Gradle        # Gradle 缓存
       uses: actions/cache@v3
       with:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-
-    - name: Setup Java
+    
+    - name: Setup Java          # Java 环境
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
         
-    - name: Build Android APK
+    - name: Build Android APK   # 构建 APK
       working-directory: ./android
       run: |
         ./gradlew clean
-        ./gradlew assembleDebug --stacktrace --scan --no-daemon
+        ./gradlew assembleDebug --stacktrace --no-daemon
         
-    - name: Upload APK
+    - name: Upload APK          # 上传产物
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
