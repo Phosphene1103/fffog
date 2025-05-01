@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget 
+  id="com.eco.airmonitor"   <!-- 应用ID (反向域名格式) -->
+  version="1.0.0" 
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <!-- 应用显示名称 -->
+  <name short="雾霾监测">空气质量监测系统</name>
+  <!-- 多语言支持 -->
+  <name xml:lang="en">Air Quality Monitor</name>
+
+  <!-- 入口页面 -->
+  <content src="index.html" />
+  
+  <!-- 权限配置 -->
+  <preference name="Fullscreen" value="true" />  <!-- 全屏模式 -->
+  <preference name="Orientation" value="portrait" />  <!-- 竖屏固定 -->
+  
+  <!-- Android专属配置 -->
+  <platform name="android">
+    <!-- 最低支持 Android 7.0 -->
+    <preference name="android-minSdkVersion" value="24" />
+    <!-- 目标 SDK 版本 -->
+    <preference name="android-targetSdkVersion" value="33" />
+    <!-- 允许访问网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 如果需要定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  </platform>
+
+  <!-- 允许加载外部资源 -->
+  <access origin="*" />  <!-- 开发阶段允许所有源，正式发布应限制为具体域名 -->
+  <allow-navigation href="*" />
+  
+  <!-- 界面配置 -->
+  <preference name="DisallowOverscroll" value="true" />  <!-- 禁用边缘滑动效果 -->
+  <preference name="AndroidWindowSoftInputMode" value="adjustPan" />  <!-- 键盘弹出时自动调整 -->
+
+  <!-- 应用图标配置 -->
+  <icon src="res/icon/android/ldpi.png" density="ldpi" />
+  <icon src="res/icon/android/mdpi.png" density="mdpi" />
+  <icon src="res/icon/android/hdpi.png" density="hdpi" />
+  <icon src="res/icon/android/xhdpi.png" density="xhdpi" />
+
+  <!-- 启动屏配置 -->
+  <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
+  <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
+
+  <!-- 插件配置（示例：添加设备传感器支持） -->
+  <plugin name="cordova-plugin-device-motion" spec="^2.0.1" />  <!-- 加速度传感器 -->
+  <plugin name="cordova-plugin-geolocation" spec="^4.1.0" />    <!-- GPS定位 -->
+</widget>
